@@ -1,12 +1,20 @@
 
-// import ParkingSpot from '../models/ParkingSpot';
+import { error } from 'console';
+import parkingSpots from '../models/ParkingSpot.js';
 
 import { promises as fs } from 'fs';
 
 export const importData = async (req, res) => {
+
   try {
-    const jsonData = await fs.readFile('path/to/your/parking-data.json', 'utf8');
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const jsonData = await fs.readFile(req.file.path, 'utf8');
     const parkingData = JSON.parse(jsonData);
+
+    console.log(parkingData);
 
     const processedData = parkingData.map(spot => ({
       assetId: spot['Parking Lot Asset ID'],
@@ -16,28 +24,39 @@ export const importData = async (req, res) => {
       handicapSpaces: spot['Handicap Parking Spaces'],
       latitude: spot.Latitude,
       longitude: spot.Longitude,
-      access: spot.Access
+      access: spot.Access || 'Unknown'
     }));
 
-    await ParkingSpot.insertMany(processedData);
+    await parkingSpots.insertMany(processedData);
+
+    // Delete the uploaded file after processing
+    await fs.unlink(req.file.path);
+
     res.status(200).json({ message: 'Data imported successfully' });
   } catch (error) {
+    console.error('Import error:', error);
     res.status(500).json({ error: 'Failed to import data' });
   }
 };
 
-export const getAllParkingSpots = async (req, res) => {
-  try {
-    const parkingSpots = await ParkingSpot.find();
-    res.status(200).json(parkingSpots);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch parking spots' });
-  }
-};
+
+// export const getAllParkingSpots = async (req, res) => {
+
+//   try {
+
+//     await parkingSpots.find().then(spots => {
+//       res.status(200).json(spots);
+//     })
+   
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Failed to fetch parking spots' });
+//   }
+// };
 
 export const createParkingSpot = async (req, res) => {
   try {
-    const newParkingSpot = new ParkingSpot(req.body);
+    const newParkingSpot = new parkingSpots(req.body);
     await newParkingSpot.save();
     res.status(201).json(newParkingSpot);
   } catch (error) {
@@ -47,7 +66,7 @@ export const createParkingSpot = async (req, res) => {
 
 export const updateParkingSpot = async (req, res) => {
   try {
-    const updatedSpot = await ParkingSpot.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedSpot = await parkingSpots.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedSpot) {
       return res.status(404).json({ error: 'Parking spot not found' });
     }
@@ -59,7 +78,7 @@ export const updateParkingSpot = async (req, res) => {
 
 export const deleteParkingSpot = async (req, res) => {
   try {
-    const deletedSpot = await ParkingSpot.findByIdAndDelete(req.params.id);
+    const deletedSpot = await parkingSpots.findByIdAndDelete(req.params.id);
     if (!deletedSpot) {
       return res.status(404).json({ error: 'Parking spot not found' });
     }

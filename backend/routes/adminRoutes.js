@@ -2,7 +2,8 @@
 
 import express from 'express';
 import * as  adminController from '../controller/adminController.js';
-
+import multer from 'multer';
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
@@ -13,8 +14,8 @@ const router = express.Router();
 // router.use(authMiddleware.requireAuth);
 // router.use(authMiddleware.requireAdmin);
 
-router.post('/import-data', adminController.importData);
-router.get('/parking-spots', adminController.getAllParkingSpots);
+router.post('/import-data', upload.single('parkingData'), adminController.importData);
+// router.get('/parking-spots', adminController.getAllParkingSpots);
 router.post('/parking-spots', adminController.createParkingSpot);
 router.put('/parking-spots/:id', adminController.updateParkingSpot);
 router.delete('/parking-spots/:id', adminController.deleteParkingSpot);

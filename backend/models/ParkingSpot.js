@@ -1,6 +1,5 @@
 
 import mongoose, { model } from "mongoose";
-const { type } = require('os');
 const { Schema } = mongoose;
 
 const ParkingSchema = new Schema({
@@ -50,6 +49,6 @@ const ParkingSchema = new Schema({
     }
 })
 
-const parkingSpots = model('parkingSpot', ParkingSchema);
+const parkingSpots = mongoose.model('parkingSpot', ParkingSchema);
 
 export default parkingSpots;
