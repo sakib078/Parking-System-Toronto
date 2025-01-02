@@ -7,6 +7,11 @@ export const getSpots = (req, res) => {
     // Implementation for getting all parking spots from the schema
 };
 
+// Create a new parking spot
+export const addSpot = (req, res) => {
+    // Implementation for creating a new parking spot
+};
+
 // Get a specific parking spot by ID
 export const getSpotById = (req, res) => {
     // Implementation for getting a specific parking spot by ID
@@ -17,10 +22,7 @@ export const searchSpots = (req, res) => {
     // Implementation for searching parking spots based on given criteria
 };
 
-// Create a new parking spot
-export const createSpot = (req, res) => {
-    // Implementation for creating a new parking spot
-};
+
 
 // Update an existing parking spot's information
 export const updateSpot = (req, res) => {
