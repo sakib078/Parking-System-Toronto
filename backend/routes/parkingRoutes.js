@@ -6,8 +6,9 @@ import * as parkingController from '../controller/parkingController.js';
 const router = express.Router();
 
 router.get('/spots', parkingController.getSpots);
-router.get('/spots/:id', parkingController.getSpotById);
+router.get('/spots/search/:name', parkingController.searchSpots);
 router.get('/spots/search', parkingController.searchSpots);
+router.get('/spots/:id', parkingController.getSpotById);
 // router.post('/spots', parkingController.addSpot);
 // router.patch('/spots/:id', parkingController.updateSpot);
 // router.delete('/spots/:id', parkingController.deleteSpot);

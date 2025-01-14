@@ -24,3 +24,33 @@ export const importData =  async (file) => {
         console.error('Error importing trhe file', error);
     }
 }
+
+
+
+export const getName = async (value)  => {
+   
+    if (typeof value !== 'string') {
+        throw new TypeError('The input value must be a string');
+    }
+
+    const finalvalue =  value.toUpperCase();
+
+    console.log(finalvalue);
+
+    try {
+        const res = await axios.get(`http://localhost:4242/park/spots/search/${finalvalue}`).then(
+            response => {
+
+                console.log('dtaa',response.data.coordinates);
+
+                return response.data.coordinates;
+            }
+        )
+
+        return res;
+    } catch (error) {
+        console.error('Error fetching the data', error);
+        throw error;
+    }
+
+}

@@ -7,7 +7,7 @@ export const getSpots = async (req, res) => {
 
     try {
         await parkingSpots.find().then(spots => {
-            res.status(200).json({spots : spots});
+            res.status(200).json({ spots: spots });
         })
 
     } catch (error) {
@@ -16,32 +16,67 @@ export const getSpots = async (req, res) => {
     }
 };
 
-// Get a specific parking spot by ID
-export const getSpotById = async (req, res) => {
+
+// Search for parking spots based on criteria
+export const searchSpots = async (req, res) => {
+    // Implementation for searching parking spots based on given criteria
     
-    const id = req.params.id;
+    const name = req.params.name;
+
+    console.log(typeof(name));
+
     try {
-        await parkingSpots.findById(id).then( spotbyId => {
-            
-            if(!spotbyId) {
-                const error = new Error('could not find the spot');
+        // let loc_array = {};
+
+        await parkingSpots.where('name').equals(name).select("latitude longitude").then(location => {
+
+            if (!location) {
+                const error = new Error('Could not fetch coordinates');
                 error.statusCode = 422;
                 throw error;
             }
-            res.status(200).json({ spotbyId :spotbyId});
+
+            // for( const  cr of coordinates){
+            //     loc_array.push(cr);
+            // }
+
+            console.log(location);
+
+            res.status(200).json({ coordinates: location });
+
         })
     }
-    catch(error) {
-        if(!error.statusCode){
+    catch (error) {
+        if (!error.statusCode) {
             error.statusCode = 500;
         }
         console.log(error);
     }
+
 };
 
-// Search for parking spots based on criteria
-export const searchSpots = (req, res) => {
-    // Implementation for searching parking spots based on given criteria
+
+// Get a specific parking spot by ID
+export const getSpotById = async (req, res) => {
+
+    const id = req.params.id;
+    try {
+        await parkingSpots.findById(id).then(spotbyId => {
+
+            if (!spotbyId) {
+                const error = new Error('could not find the spot');
+                error.statusCode = 422;
+                throw error;
+            }
+            res.status(200).json({ spotbyId: spotbyId });
+        })
+    }
+    catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        console.log(error);
+    }
 };
 
 // Book a parking spot

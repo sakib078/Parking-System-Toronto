@@ -55,7 +55,7 @@ app.listen(app.get('port'), async () => {
   try {
     await mongoose.connect(`mongodb+srv://${dbUsername}:${dbPassword}@cluster0.4twp21v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
     console.log('Connected to MongoDB successfully');
-    console.log(`Server running on port ${app.get('port')}`);
+    console.log(`Server running on port http://localhost:${app.get('port')}/`);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
   }

@@ -51,4 +51,5 @@ const ParkingSchema = new Schema({
 
 const parkingSpots = mongoose.model('parkingSpot', ParkingSchema);
 
+
 export default parkingSpots;
