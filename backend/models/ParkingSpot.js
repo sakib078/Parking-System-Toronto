@@ -46,8 +46,8 @@ const ParkingSchema = new Schema({
         type : Date,
         default : () => Date.now(),
         immutable: true,
-    }
-})
+    },
+});
 
 const parkingSpots = mongoose.model('parkingSpot', ParkingSchema);
 

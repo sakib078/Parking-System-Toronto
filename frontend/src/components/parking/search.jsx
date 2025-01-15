@@ -1,62 +1,77 @@
-import React, { useState } from 'react';
-import { getName } from '../../services/api';
+import React, { useState, useEffect } from 'react';
+import { getCoordinates, getrelavantNames } from '../../services/api';
 
 function Search() {
-    const [value, setValue] = useState();
-    const [data , setdata] = useState([]);
+    
+    const [value, setValue] = useState('');
+    const [data, setData] = useState([]);
+    const [suggestedNames, setSuggestedNames] = useState([]);
 
-    function getValue(inputValue) {
+    useEffect(() => {
+        if (value) {
+            getrelavantNames(value)
+                .then(names => {
+                    setSuggestedNames(names);
+                })
+                .catch(error => {
+                    console.error('Error fetching suggested names:', error);
+                });
+        } else {
+            setSuggestedNames([]);
+        }
+    }, [value]);
+
+    function handleInputChange(inputValue) {
         setValue(inputValue);
     }
 
-    
-    function sendtheValue  () {
-
+    function handleSearch() {
         if (value) {
-
-            getName(value).then(data => {
-                console.log(data);
-                if (data !== undefined && data !== null) {
-                    setdata(data);
-                } else {
-                    console.error('Received undefined or null data');
-                }
-            }).catch(error => {
-                console.error('Error fetching data:', error);
-            });
+            getCoordinates(value)
+                .then(data => {
+                    if (data) {
+                        setData(data);
+                    } else {
+                        console.error('Received undefined or null data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         } else {
-            console.error('did not get the name');
+            console.error('No search value provided');
         }
     }
 
     return (
         <>
-        <h1> Search for the spots here </h1>
-        <div className="search-box">
-            <input
-                type="text"
-                placeholder="enter your location"
-                onChange={(event) => getValue(event.target.value)}
-            />
-        </div>
-        <button className="button" onClick={sendtheValue}> FIND </button>
-        {
-            data && 
-            (
-                data.map( item => {
-
-                    return (
-                        <div key={item._id}>
-                            <p>ID: {item._id}</p>
-                            <p>Latitude: {item.latitude}</p>
-                            <p>Longitude: {item.longitude}</p>
-                        </div>
-                    )
-                })
-
-            )
-        }
-    </>
+            <h1>Search for the spots here</h1>
+            <div className="search-box">
+                <input
+                    type="text"
+                    placeholder="Enter your location"
+                    value={value}
+                    onChange={(event) => handleInputChange(event.target.value)}
+                />
+                {suggestedNames.length > 0 && (
+                    <ul>
+                        {suggestedNames.map((name, index) => (
+                            <li key={index} onClick={() => setValue(name)}>{name}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+            <button className="button" onClick={handleSearch}>FIND</button>
+            {data.length > 0 && (
+                data.map(item => (
+                    <div key={item._id}>
+                        <p>ID: {item._id}</p>
+                        <p>Latitude: {item.latitude}</p>
+                        <p>Longitude: {item.longitude}</p>
+                    </div>
+                ))
+            )}
+        </>
     );
 }
 
