@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getCoordinates, getrelavantNames } from '../../services/api';
+import { getrelavantNames } from '../../services/api';
+import { useDataContext } from '../../store/context.jsx';  
 
 function Search() {
     
     const [value, setValue] = useState('');
-    const [data, setData] = useState([]);
     const [suggestedNames, setSuggestedNames] = useState([]);
+    const { data, handleSearch } = useDataContext();
 
     useEffect(() => {
         if (value) {
@@ -23,24 +24,6 @@ function Search() {
 
     function handleInputChange(inputValue) {
         setValue(inputValue);
-    }
-
-    function handleSearch() {
-        if (value) {
-            getCoordinates(value)
-                .then(data => {
-                    if (data) {
-                        setData(data);
-                    } else {
-                        console.error('Received undefined or null data');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        } else {
-            console.error('No search value provided');
-        }
     }
 
     return (
@@ -61,7 +44,7 @@ function Search() {
                     </ul>
                 )}
             </div>
-            <button className="button" onClick={handleSearch}>FIND</button>
+            <button className="button" onClick={() => handleSearch(value)}>FIND</button>
             {data.length > 0 && (
                 data.map(item => (
                     <div key={item._id}>

@@ -47,7 +47,7 @@ export const searchSpots = async (req, res) => {
 
     const name = req.params.name;
 
-    console.log(typeof (name));
+    console.log(name);
 
     try {
         // let loc_array = {};
