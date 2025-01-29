@@ -17,7 +17,6 @@ export const getSpots = async (req, res) => {
 };
 
 
-
 export const searchNames = async (req, res) => {
     try {
         const { query } = req.params;

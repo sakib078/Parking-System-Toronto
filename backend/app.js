@@ -37,13 +37,6 @@ app.use(cors({
 }));
 
 
-
-// app.use('/', (req, res) => {
-  
-//   res.send('Hello world');
-   
-// })
-
 app.use('/admin', adminRoutes);
 app.use('/park', parkingRoutes);
 

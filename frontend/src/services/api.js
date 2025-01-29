@@ -84,3 +84,24 @@ export const getrelavantNames = async (value) => {
      
 }
 
+
+export async function getspots() {
+    
+    try {
+        const spots = await axios.get('http://localhost:4242/park/spots').then(
+            res => {
+
+                return res.data.spots;
+            }
+        )
+
+        return spots;
+         
+    }
+    catch(error) {
+        console.error('Error fetching the data', error);
+        throw error;
+    }
+
+
+}

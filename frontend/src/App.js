@@ -1,17 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
 
-import Admin from './components/Admin';
+// import Admin from './components/Admin';
 import Search from './components/parking/search';
+import Nearestspots from './components/layout/nearestSpot.jsx'
+import GMap from './components/map/Map.jsx';
 
 function App() {
+  
+
   return (
     <div className="App">
-      <header className="App-header">
+      
+      
+      <div className="App-header">
+        <GMap />
         <Search />
-      </header>
+        <Nearestspots />
+      </div>
+
     </div>
   );
-}
+} 
 
 export default App;
