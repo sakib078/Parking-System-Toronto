@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { getrelavantNames } from '../../services/api';
 import { useDataContext } from '../../store/context.jsx';  
 
-function Search() {
+function Search() {            
     
     const [value, setValue] = useState('');
     const [suggestedNames, setSuggestedNames] = useState([]);
     const { data, handleSearch } = useDataContext();
+
 
     useEffect(() => {
         if (value) {

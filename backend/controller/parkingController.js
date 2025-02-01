@@ -79,6 +79,20 @@ export const searchSpots = async (req, res) => {
 
 };
 
+export  async function nearestSpots(req, res) {
+   
+
+    try {
+          
+      
+
+    }
+    catch {
+
+    }
+
+}
+
 
 // // Get a specific parking spot by ID
 // export const getSpotById = async (req, res) => {

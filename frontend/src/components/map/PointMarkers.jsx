@@ -3,7 +3,7 @@ import {
     Pin
 } from '@vis.gl/react-google-maps';
 
-export default function PointMarkers({ data }) {
+export default function PointMarkers({ data}) {
 
 
     return (
