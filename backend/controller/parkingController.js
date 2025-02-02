@@ -1,6 +1,7 @@
 // parkingController.js
 
 import parkingSpots from '../models/ParkingSpot.js';
+import nearestSpot from '../utils/nearestSpots.js';
 
 // Get all parking spots
 export const getSpots = async (req, res) => {
@@ -81,14 +82,21 @@ export const searchSpots = async (req, res) => {
 
 export const nearestSpots = async (req, res) => {
     
-
+    let coordinates = [43.750770, -79.258082];
+    
     try {
-          
-      
+        await parkingSpots.find().select('latitude longitude').then(spots => {
+            const results = nearestSpot(coordinates, spots);
 
-    }
-    catch {
+            if(results) {
+                res.status(200).json({ results: results });
+            }
 
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Failed to fetch parking spots' });
     }
 
 }

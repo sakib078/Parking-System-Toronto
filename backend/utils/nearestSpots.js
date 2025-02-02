@@ -34,10 +34,10 @@ function harvensine(lat1, long1, lat2, long2) {
     let dlong = redian.at(3) - redian.at(1);
  
 
-    a = ( Math.sin(dlat / 2) ** 2 ) + Math.cos(redian.at(0)) * Math.cos(redian.at(2)) * ( Math.sin(dlong / 2) ** 2 );
+    let a = ( Math.sin(dlat / 2) ** 2 ) + Math.cos(redian.at(0)) * Math.cos(redian.at(2)) * ( Math.sin(dlong / 2) ** 2 );
    
 
-    c = 2 * Math.asin(Math.sqrt(a));
+    let c = 2 * Math.asin(Math.sqrt(a));
     
 
     let km = Math.round(earth_radius * c * 100) / 100;
@@ -46,22 +46,21 @@ function harvensine(lat1, long1, lat2, long2) {
 
 }
 
-console.log(harvensine(43.750627, -79.257986, 43.79545, -79.34786));
-
-
-
-// sort the all coordinates distance
-function sorter() {
-
-
-}
-
-
-
-const nearestSpot = () => {
+const nearestSpot = (coordinates , spots) => {
   
+    let let1 = coordinates[0];
+    let long1 = coordinates[1];
+
+    let allspots = spots.map( spot => {
+        
+       let distance = harvensine(let1, long1, spot.latitude , spot.longitude);
+
+       return { _id : spot._id , latitude:spot.latitude , longitude:spot.longitude,  distance: distance }
+        
+    })
     
- 
+     
+    return allspots;
 }
 
 
