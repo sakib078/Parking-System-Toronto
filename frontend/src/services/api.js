@@ -106,3 +106,22 @@ export async function getspots() {
 
 }
 
+export async function Nearestspot(latitude, longitude) {
+
+
+    try {
+        
+        const response = await axios.post('http://localhost:4242/park/spots/nearestSpot', 
+        {
+            latitude,
+            longitude
+        });
+        
+        return response.data.results;
+
+    } catch(error) {
+
+        console.error('Error fetching the nearest spots', error);
+        throw error;
+    }
+}

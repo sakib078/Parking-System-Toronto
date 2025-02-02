@@ -79,27 +79,35 @@ export const searchSpots = async (req, res) => {
     }
 
 };
-
 export const nearestSpots = async (req, res) => {
+
+    const { latitude, longitude } = req.body;
     
-    let coordinates = [43.750770, -79.258082];
-    
-    try {
-        await parkingSpots.find().select('latitude longitude').then(spots => {
-            const results = nearestSpot(coordinates, spots);
-
-            if(results) {
-                res.status(200).json({ results: results });
-            }
-
-        })
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Failed to fetch parking spots' });
+    if (!latitude || !longitude) {
+        return res.status(400).json({ error: 'Latitude and longitude are required' });
     }
 
+    try {
+
+        const spots = await parkingSpots.find().select('latitude longitude');
+        const results = nearestSpot([latitude, longitude], spots);
+        
+        if (results && results.length > 0) {
+
+            res.status(200).json({ results });
+
+        } else {
+
+            res.status(404).json({ message: 'No nearby spots found' });
+        }
+    } 
+    catch (error) {
+
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch parking spots' });
+    }
 }
+
 
 
 // // Get a specific parking spot by ID

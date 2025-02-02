@@ -1,41 +1,41 @@
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 
 
+export default function PlaceAutocomplete({ onPlaceSelect }) {
+  const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
+  const inputRef = useRef(null);
+  const places = useMapsLibrary('places');
 
-export default function PlaceAutocomplete ({ onPlaceSelect }) {
+  useEffect(() => {
+    if (!places || !inputRef.current) return;
 
-    const [placeAutocomplete, setplaceAutocomplete] = useState(null);
-    const inputRef = useRef(null);
-    const places = useMapsLibrary('places');
+    const options = {
+      fields: ["geometry", "name", "formatted_address"],
+      types: ["establishment", "geocode"]
+    };
 
-    useEffect(() => {
+    setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
+  }, [places]);
 
-        if (!places || !inputRef.current)
-            return;
+  useEffect(() => {
+    if (!placeAutocomplete) return;
 
-        const options = {
-            fields: ["geometry", "name", "formatted_address"],
-        };
+    const listener = placeAutocomplete.addListener("place_changed", () => {
+      const place = placeAutocomplete.getPlace();
+      onPlaceSelect(place);
+    });
 
-        setplaceAutocomplete(new places.Autocomplete(inputRef.current, options));
+    return () => listener.remove();
+  }, [onPlaceSelect, placeAutocomplete]);
 
-    }, [places]);
-
-    useEffect(() => {
-
-        if (!placeAutocomplete)
-            return;
-
-        placeAutocomplete.addListener("place_changed", () => {
-            onPlaceSelect(placeAutocomplete.getPlace());
-        });
-    }, [onPlaceSelect, placeAutocomplete]);
-
-
-    return (
-        <div>
-            <input ref={inputRef} />
-        </div>
-    )
-} 
+  return (
+    <div>
+      <input 
+        ref={inputRef} 
+        placeholder="Search location..."
+        style={{ width: '300px', padding: '8px' }}
+      />
+    </div>
+  );
+}

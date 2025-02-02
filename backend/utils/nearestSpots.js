@@ -46,6 +46,7 @@ function harvensine(lat1, long1, lat2, long2) {
 
 }
 
+
 const nearestSpot = (coordinates , spots) => {
   
     let let1 = coordinates[0];
@@ -59,8 +60,11 @@ const nearestSpot = (coordinates , spots) => {
         
     })
     
-     
-    return allspots;
+    allspots.sort((a, b) => a.distance - b.distance);
+
+    const top20 = allspots.slice(0, 20)   
+
+    return top20;
 }
 
 
