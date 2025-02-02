@@ -79,8 +79,8 @@ export const searchSpots = async (req, res) => {
 
 };
 
-export  async function nearestSpots(req, res) {
-   
+export const nearestSpots = async (req, res) => {
+    
 
     try {
           

@@ -35,7 +35,7 @@ const GMap = () => {
                     }
                     mapId='da37f3254c6a6d1c'
                 >
-                     <AdvancedMarker ref={markerRef} position={null} />
+                    <AdvancedMarker ref={markerRef} position={null} />
                     <PointMarkers data={data} />
                 </Map>
                 <MapControl position={ControlPosition.TOP}>
