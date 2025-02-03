@@ -40,8 +40,6 @@ export const searchNames = async (req, res) => {
 };
 
 
-
-
 // Search for parking spots based on criteria
 export const searchSpots = async (req, res) => {
     // Implementation for searching parking spots based on given criteria
@@ -79,6 +77,8 @@ export const searchSpots = async (req, res) => {
     }
 
 };
+
+
 export const nearestSpots = async (req, res) => {
 
     const { latitude, longitude } = req.body;

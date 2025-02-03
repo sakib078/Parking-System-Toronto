@@ -62,9 +62,9 @@ const nearestSpot = (coordinates , spots) => {
     
     allspots.sort((a, b) => a.distance - b.distance);
 
-    const top20 = allspots.slice(0, 20)   
+    const top05 = allspots.slice(0, 5)   
 
-    return top20;
+    return top05;
 }
 
 

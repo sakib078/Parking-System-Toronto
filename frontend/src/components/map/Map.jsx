@@ -8,13 +8,11 @@ import {
 } from '@vis.gl/react-google-maps';
 import PointMarkers from './PointMarkers.jsx';
 import PlaceAutocomplete from './PlaceAutocomplete.jsx';
-import { Nearestspot } from '../../services/api.js';
 import { useDataContext } from '../../store/context.jsx';
 
 const GMap = () => {
     const [selectedPlace, setSelectedPlace] = useState(null);
-    const [nearestLocs, setnearestLocs] = useState([]);
-    const { data } = useDataContext();
+    const { data , Nearestspots , nearestLocs } = useDataContext();
 
     const apikey = process.env.REACT_APP_MAP_API_KEY;
 
@@ -33,20 +31,15 @@ const GMap = () => {
     console.log(selectedPlace);
 
     useEffect(() => {
+
             if (selectedPlace) {
-                Nearestspot(selectedPlace.lat, selectedPlace.lng)
-                    .then(results => {
-                        setnearestLocs(results);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching suggested names:', error);
-                    });
+
+                Nearestspots(selectedPlace)
+    
             } else {
                 console.error('place is not selected');
             }
         }, [selectedPlace]);
-
-        console.log('nearest',nearestLocs);
 
     return (
         <div style={{ width: '800px', height: '300px', margin: '100px' }}>
