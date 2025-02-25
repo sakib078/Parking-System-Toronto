@@ -63,7 +63,7 @@ export default function Nearestspot() {
             background: '#f9f9f9',
           }}
         >
-          <h2 style={{ margin: '0 0 10px 0' }}>{spot.name}</h2>
+        <h2 style={{ margin: '0 0 10px 0' }}>{spot.name}</h2>
           <p>
             <strong>Asset ID:</strong> {spot.assetId}
           </p>

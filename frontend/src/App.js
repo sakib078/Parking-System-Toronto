@@ -5,6 +5,7 @@ import Nearestspot from './components/map/Nearestspot.jsx';
 import GMap from './components/map/Map.jsx';
 import { DataContextProvider } from './store/context.jsx';  // Adjust the import path as needed
 
+
 function App() {
   return (
     <DataContextProvider>
