@@ -1,20 +1,17 @@
 import React from 'react';
 import './App.css';
-import Search from './components/parking/search';
-import Nearestspot from './components/map/Nearestspot.jsx';
-import GMap from './components/map/Map.jsx';
+import Header from './components/layout/Header.jsx';
+import Main from './components/layout/Main.jsx';
 import { DataContextProvider } from './store/context.jsx';  // Adjust the import path as needed
+
 
 
 function App() {
   return (
     <DataContextProvider>
-      <div className="App">
-        <div className="App-header">
-          <GMap />
-          <Search />
-          <Nearestspot />
-        </div>
+      <div className="min-h-screen bg-gray-100">
+        <Header />
+        <Main />
       </div>
     </DataContextProvider>
   );

@@ -39,7 +39,7 @@ export default function PlaceAutocomplete({ onPlaceSelect }) {
       <input 
         ref={inputRef} 
         placeholder="Search for places in Toronto..."
-        style={{ width: '300px', padding: '8px' }}
+        className="w-80 p-2 text-black"
       />
     </div>
   );

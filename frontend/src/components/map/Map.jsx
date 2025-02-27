@@ -39,10 +39,10 @@ const GMap = () => {
             } else {
                 console.error('place is not selected');
             }
-        }, [selectedPlace]);
+        }, [selectedPlace, Nearestspots]);
 
     return (
-        <div style={{ width: '800px', height: '300px', margin: '100px' }}>
+        <div className='w-6/12  h-80 m-28'>
             <APIProvider apiKey={apikey} onLoad={() => console.log('Maps API has loaded.')}>
                 <Map
                     defaultZoom={9}

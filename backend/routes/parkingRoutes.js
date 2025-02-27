@@ -13,6 +13,7 @@ router.post('/spots/nearestSpot', parkingController.nearestSpots);
 // router.patch('/spots/:id', parkingController.updateSpot);
 // router.delete('/spots/:id', parkingController.deleteSpot);
 
+
 // spots future implementation....
 router.post('/spots/:id/book', parkingController.bookSpot);
 router.post('/spots/:id/release', parkingController.releaseSpot);
