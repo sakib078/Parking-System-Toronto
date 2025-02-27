@@ -12,10 +12,9 @@ import { useDataContext } from '../../store/context.jsx';
 
 const GMap = () => {
     const [selectedPlace, setSelectedPlace] = useState(null);
-    const { data , Nearestspots , nearestLocs } = useDataContext();
+    const { data, Nearestspots, nearestLocs } = useDataContext();
 
     const apikey = process.env.REACT_APP_MAP_API_KEY;
-
 
     const handlePlaceSelect = (place) => {
         if (place.geometry?.location) {
@@ -28,46 +27,50 @@ const GMap = () => {
         }
     };
 
-    console.log(selectedPlace);
-
     useEffect(() => {
-
-            if (selectedPlace) {
-
-                Nearestspots(selectedPlace)
-    
-            } else {
-                console.error('place is not selected');
-            }
-        }, [selectedPlace, Nearestspots]);
+        if (selectedPlace) {
+            Nearestspots(selectedPlace);
+        } else {
+            console.error('place is not selected');
+        }
+    }, [selectedPlace, Nearestspots]);
 
     return (
-        <div className='w-6/12  h-80 m-28'>
+        <div className='w-6/12 h-80 m-28'>
             <APIProvider apiKey={apikey} onLoad={() => console.log('Maps API has loaded.')}>
                 <Map
-                    defaultZoom={9}
+                    defaultZoom={14}
                     defaultCenter={{ lat: 43.6529, lng: -79.3849 }}
                     mapId='da37f3254c6a6d1c'
+                    mapContainerClassName="w-full h-full rounded-lg"
+                    options={{
+                        disableDefaultUI: true,
+                        zoomControl: true,
+                        styles: [
+                            {
+                                featureType: 'poi.business',
+                                stylers: [{ visibility: 'off' }],
+                            },
+                        ],
+                    }}
                 >
-                    {nearestLocs && (
-                        nearestLocs.map( nl => {
-
-                            return (
-                                <AdvancedMarker 
-                                position={{ lat: nl.latitude, lng: nl.longitude }}
-                                title={selectedPlace.name}
-                            />
-                            )
-                        })
-                    )}
+                    {nearestLocs && nearestLocs.map((nl, index) => (
+                        <AdvancedMarker
+                            key={index}
+                            position={{ lat: nl.latitude, lng: nl.longitude }}
+                            title={nl.name || 'Parking Spot'}
+                            icon={{
+                                url: 'https://maps.google.com/mapfiles/ms/icons/parking.png',
+                            }}
+                        />
+                    ))}
                     <PointMarkers data={data} />
+                    <MapControl position={ControlPosition.TOP_LEFT}>
+                        <div className="autocomplete-control" style={{ margin: '10px' }}>
+                            <PlaceAutocomplete onPlaceSelect={handlePlaceSelect} />
+                        </div>
+                    </MapControl>
                 </Map>
-                
-                <MapControl position={ControlPosition.TOP}>
-                    <div className="autocomplete-control" style={{ margin: '10px' }}>
-                        <PlaceAutocomplete onPlaceSelect={handlePlaceSelect} />
-                    </div>
-                </MapControl>
             </APIProvider>
         </div>
     );

@@ -3,6 +3,7 @@ import { getrelavantNames } from '../../services/api';
 import { useDataContext } from '../../store/context.jsx';
 import { SearchIcon } from 'lucide-react';
 
+
 function Search() {
     const [value, setValue] = useState('');
     const [suggestedNames, setSuggestedNames] = useState([]);
