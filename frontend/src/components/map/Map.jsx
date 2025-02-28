@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
     APIProvider,
@@ -66,9 +67,9 @@ const GMap = () => {
                     ))}
                     <PointMarkers data={data} />
                     <MapControl position={ControlPosition.TOP_LEFT}>
-                        <div className="autocomplete-control" style={{ margin: '10px' }}>
+                        {/* <div className="autocomplete-control" style={{ margin: '10px' }}>
                             <PlaceAutocomplete onPlaceSelect={handlePlaceSelect} />
-                        </div>
+                        </div> */}
                     </MapControl>
                 </Map>
             </APIProvider>

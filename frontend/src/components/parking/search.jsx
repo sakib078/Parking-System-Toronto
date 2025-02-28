@@ -11,6 +11,17 @@ function Search({ onPlaceSelect }) {
     const inputRef = useRef(null);
     const [searchBox, setSearchBox] = useState(null);
 
+    const options = {
+        fields: ["geometry", "name", "formatted_address"],
+        types: ["establishment", "geocode"],
+        componentRestrictions: { country: "CA" },
+        bounds: new google.maps.LatLngBounds(
+          new google.maps.LatLng(43.58, -79.64), // Southwest corner of Toronto
+          new google.maps.LatLng(43.86, -79.12)  // Northeast corner of Toronto
+        ),
+        strictBounds: true
+      };
+
     useEffect(() => {
         if (value) {
             getrelavantNames(value)
@@ -54,6 +65,7 @@ function Search({ onPlaceSelect }) {
             <StandaloneSearchBox
                 onLoad={onLoad}
                 onPlacesChanged={onPlacesChanged}
+                options={options}
             >
                 <div className="relative">
                     <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -80,7 +92,7 @@ function Search({ onPlaceSelect }) {
                     ))}
                 </ul>
             )}
-            <button className="button mt-2" onClick={() => handleSearch(value)}>FIND</button>
+            {/* <button className="button mt-2" onClick={() => handleSearch(value)}>FIND</button> */}
         </div>
     );
 }
