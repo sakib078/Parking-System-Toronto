@@ -10,6 +10,7 @@ import PointMarkers from './PointMarkers.jsx';
 import PlaceAutocomplete from './PlaceAutocomplete.jsx';
 import { useDataContext } from '../../store/context.jsx';
 
+
 const GMap = () => {
     const [selectedPlace, setSelectedPlace] = useState(null);
     const { data, Nearestspots, nearestLocs } = useDataContext();
@@ -36,7 +37,6 @@ const GMap = () => {
     }, [selectedPlace, Nearestspots]);
 
     return (
-        <div className='w-6/12 h-80 m-28'>
             <APIProvider apiKey={apikey} onLoad={() => console.log('Maps API has loaded.')}>
                 <Map
                     defaultZoom={14}
@@ -44,7 +44,7 @@ const GMap = () => {
                     mapId='da37f3254c6a6d1c'
                     mapContainerClassName="w-full h-full rounded-lg"
                     options={{
-                        disableDefaultUI: true,
+                        disableDefaultUI: false,
                         zoomControl: true,
                         styles: [
                             {
@@ -72,7 +72,6 @@ const GMap = () => {
                     </MapControl>
                 </Map>
             </APIProvider>
-        </div>
     );
 };
 

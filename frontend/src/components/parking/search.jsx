@@ -1,71 +1,89 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getrelavantNames } from '../../services/api';
 import { useDataContext } from '../../store/context.jsx';
 import { SearchIcon } from 'lucide-react';
+import { StandaloneSearchBox } from '@react-google-maps/api';
 
-
-function Search() {
+function Search({ onPlaceSelect }) {
     const [value, setValue] = useState('');
-    const [suggestedNames, setSuggestedNames] = useState([]);
+    const [parkNameSuggestions, setParkNameSuggestions] = useState([]);
     const { data, handleSearch } = useDataContext();
+    const inputRef = useRef(null);
+    const [searchBox, setSearchBox] = useState(null);
 
     useEffect(() => {
         if (value) {
             getrelavantNames(value)
                 .then(names => {
-                    setSuggestedNames(names);
+                    setParkNameSuggestions(names);
                 })
                 .catch(error => {
                     console.error('Error fetching suggested names:', error);
                 });
         } else {
-            setSuggestedNames([]);
+            setParkNameSuggestions([]);
         }
     }, [value]);
 
-    function handleInputChange(inputValue) {
-        setValue(inputValue);
-    }
+    const handleInputChange = (event) => {
+        setValue(event.target.value);
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        setValue(suggestion);
+        handleSearch(suggestion);
+    };
+
+    const onLoad = (ref) => {
+        setSearchBox(ref);
+    };
+
+    const onPlacesChanged = () => {
+        if (searchBox) {
+            const places = searchBox.getPlaces();
+            if (places.length > 0) {
+                const place = places[0];
+                setValue(place.formatted_address || '');
+                onPlaceSelect(place);
+            }
+        }
+    };
 
     return (
-        <>
-            <div className="relative w-full max-w-2xl">
+        <div className="relative w-full max-w-2xl">
+            <StandaloneSearchBox
+                onLoad={onLoad}
+                onPlacesChanged={onPlacesChanged}
+            >
                 <div className="relative">
                     <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <input
                         type="text"
-                        placeholder="Enter your location"
+                        placeholder="Enter your location or park name"
                         value={value}
-                        onChange={(event) => handleInputChange(event.target.value)}
+                        onChange={handleInputChange}
                         className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        ref={inputRef}
                     />
                 </div>
-                {suggestedNames.length > 0 && (
-                    <ul className="absolute z-10 w-full bg-white mt-1 rounded-lg shadow-lg border border-gray-200">
-                        {suggestedNames.map((name, index) => (
-                            <li
-                                key={index}
-                                onClick={() => setValue(name)}
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                                {name}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-            <button className="button mt-2" onClick={() => handleSearch(value)}>FIND</button>
-            {data.length > 0 && (
-                data.map(item => (
-                    <div key={item._id} className="mt-4">
-                        <p>ID: {item._id}</p>
-                        <p>Latitude: {item.latitude}</p>
-                        <p>Longitude: {item.longitude}</p>
-                    </div>
-                ))
+            </StandaloneSearchBox>
+            {(parkNameSuggestions.length > 0) && (
+                <ul className="absolute z-10 w-full bg-white mt-1 rounded-lg shadow-lg border border-gray-200">
+                    {parkNameSuggestions.map((name, index) => (
+                        <li
+                            key={index}
+                            onClick={() => handleSuggestionClick(name)}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                            <span className="text-blue-500">[Park Name]</span> {name}
+                        </li>
+                    ))}
+                </ul>
             )}
-        </>
+            <button className="button mt-2" onClick={() => handleSearch(value)}>FIND</button>
+        </div>
     );
 }
 
 export default Search;
+
