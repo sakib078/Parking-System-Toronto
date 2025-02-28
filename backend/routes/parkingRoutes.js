@@ -4,6 +4,7 @@ import * as parkingController from '../controller/parkingController.js';
 
 const router = express.Router();
 
+
 router.get('/spots', parkingController.getSpots);
 router.get('/spots/search/:name', parkingController.searchSpots);
 router.get('/spots/searchNames/:query', parkingController.searchNames);

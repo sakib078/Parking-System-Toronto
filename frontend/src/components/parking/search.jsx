@@ -4,10 +4,10 @@ import { useDataContext } from '../../store/context.jsx';
 import { SearchIcon } from 'lucide-react';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 
-function Search({ onPlaceSelect }) {
+function Search() {
     const [value, setValue] = useState('');
     const [parkNameSuggestions, setParkNameSuggestions] = useState([]);
-    const { data, handleSearch } = useDataContext();
+    const { handleSearch, Nearestspots } = useDataContext();
     const inputRef = useRef(null);
     const [searchBox, setSearchBox] = useState(null);
 
@@ -16,11 +16,11 @@ function Search({ onPlaceSelect }) {
         types: ["establishment", "geocode"],
         componentRestrictions: { country: "CA" },
         bounds: new google.maps.LatLngBounds(
-          new google.maps.LatLng(43.58, -79.64), // Southwest corner of Toronto
-          new google.maps.LatLng(43.86, -79.12)  // Northeast corner of Toronto
+          new google.maps.LatLng(43.58, -79.64),
+          new google.maps.LatLng(43.86, -79.12)
         ),
         strictBounds: true
-      };
+    };
 
     useEffect(() => {
         if (value) {
@@ -55,8 +55,20 @@ function Search({ onPlaceSelect }) {
             if (places.length > 0) {
                 const place = places[0];
                 setValue(place.formatted_address || '');
-                onPlaceSelect(place);
+                handlePlaceSelect(place);
             }
+        }
+    };
+
+    const handlePlaceSelect = (place) => {
+        if (place.geometry?.location) {
+            const selectedPlace = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+                name: place.name,
+                address: place.formatted_address
+            };
+            Nearestspots(selectedPlace);
         }
     };
 
@@ -92,10 +104,8 @@ function Search({ onPlaceSelect }) {
                     ))}
                 </ul>
             )}
-            {/* <button className="button mt-2" onClick={() => handleSearch(value)}>FIND</button> */}
         </div>
     );
 }
 
 export default Search;
-

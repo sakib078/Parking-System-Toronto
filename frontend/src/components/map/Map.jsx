@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     APIProvider,
     Map,
@@ -8,34 +8,34 @@ import {
     AdvancedMarker
 } from '@vis.gl/react-google-maps';
 import PointMarkers from './PointMarkers.jsx';
-import PlaceAutocomplete from './PlaceAutocomplete.jsx';
+// import PlaceAutocomplete from './PlaceAutocomplete.jsx';
 import { useDataContext } from '../../store/context.jsx';
 
 
 const GMap = () => {
-    const [selectedPlace, setSelectedPlace] = useState(null);
-    const { data, Nearestspots, nearestLocs } = useDataContext();
+    // const [selectedPlace, setSelectedPlace] = useState(null);
+    const { data, nearestLocs } = useDataContext();
 
     const apikey = process.env.REACT_APP_MAP_API_KEY;
 
-    const handlePlaceSelect = (place) => {
-        if (place.geometry?.location) {
-            setSelectedPlace({
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-                name: place.name,
-                address: place.formatted_address
-            });
-        }
-    };
+    // const handlePlaceSelect = (place) => {
+    //     if (place.geometry?.location) {
+    //         setSelectedPlace({
+    //             lat: place.geometry.location.lat(),
+    //             lng: place.geometry.location.lng(),
+    //             name: place.name,
+    //             address: place.formatted_address
+    //         });
+    //     }
+    // };
 
-    useEffect(() => {
-        if (selectedPlace) {
-            Nearestspots(selectedPlace);
-        } else {
-            console.error('place is not selected');
-        }
-    }, [selectedPlace, Nearestspots]);
+    // useEffect(() => {
+    //     if (selectedPlace) {
+    //         Nearestspots(selectedPlace);
+    //     } else {
+    //         console.error('place is not selected');
+    //     }
+    // }, [selectedPlace, Nearestspots]);
 
     return (
             <APIProvider apiKey={apikey} onLoad={() => console.log('Maps API has loaded.')}>
