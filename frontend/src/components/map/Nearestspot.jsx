@@ -52,7 +52,7 @@ export default function Nearestspot() {
     return (
         <div className="grid grid-cols-1 gap-4 mt-8">
 
-            {fspots.length === 0 ? <p className=" bg-white rounded-lg p-4 mb-4 text-pretty text-center font-extrabold "> Place Is Not Selected </p> : fspots.map((spot) => (
+            {fspots.length === 0 ? <p className=" bg-white rounded-lg p-6 mb-4 text-center font-mono font-semibold text-gray-800"> PLACE IS NOT SELECTED! </p> : fspots.map((spot) => (
                 <div key={spot._id} className="bg-white rounded-lg  p-4 mb-4">
                     <div className="flex justify-between items-start">
                         <div>
