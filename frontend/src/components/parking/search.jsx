@@ -4,10 +4,13 @@ import { useDataContext } from '../../store/context.jsx';
 import { SearchIcon } from 'lucide-react';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 
+
+
 function Search() {
+
     const [value, setValue] = useState('');
     const [parkNameSuggestions, setParkNameSuggestions] = useState([]);
-    const { handleSearch, Nearestspots } = useDataContext();
+    const { handleSearch, Nearestspots, setSelectedPlace } = useDataContext();
     const inputRef = useRef(null);
     const [searchBox, setSearchBox] = useState(null);
 
@@ -68,11 +71,15 @@ function Search() {
                 name: place.name,
                 address: place.formatted_address
             };
+            
             Nearestspots(selectedPlace);
+            setSelectedPlace(selectedPlace);
         }
     };
 
+
     return (
+
         <div className="relative w-full max-w-2xl">
             <StandaloneSearchBox
                 onLoad={onLoad}
@@ -83,7 +90,7 @@ function Search() {
                     <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <input
                         type="text"
-                        placeholder="Enter your location or park name"
+                        placeholder="Enter your location or parking spots.."
                         value={value}
                         onChange={handleInputChange}
                         className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

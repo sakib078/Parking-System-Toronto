@@ -3,7 +3,6 @@ import Nearestspot from '../map/Nearestspot.jsx';
 import GMap from '../map/Map.jsx';
 
 
-
 export default function Main() {
 
     return (
@@ -15,7 +14,7 @@ export default function Main() {
                         <GMap />
                     </div>
                     <div className="w-96 overflow-y-auto h-[calc(100vh-12rem)]">
-                        <h2 className="text-lg font-semibold mb-4">Available Parking Spots</h2>
+                        <h2 className="text-lg font-semibold mb-4 text-pretty text-center">Available Parking Spots</h2>
                         <Nearestspot />
                     </div>
                 </div>

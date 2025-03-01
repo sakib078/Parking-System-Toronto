@@ -18,6 +18,10 @@ const GMap = () => {
 
     const apikey = process.env.REACT_APP_MAP_API_KEY;
 
+
+    console.log('data',data);
+    console.log('nearestLocs', nearestLocs)
+
     // const handlePlaceSelect = (place) => {
     //     if (place.geometry?.location) {
     //         setSelectedPlace({

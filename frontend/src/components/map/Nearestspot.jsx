@@ -5,7 +5,9 @@ import { Car, Accessibility, Navigation2 } from 'lucide-react';
 
 export default function Nearestspot() {
     const [fspots, setfspots] = useState([]);
-    const { nearestLocs } = useDataContext();
+    const { nearestLocs, selectedPlace } = useDataContext();
+
+
 
     useEffect(() => {
         if (!nearestLocs || nearestLocs.length === 0) {
@@ -32,13 +34,25 @@ export default function Nearestspot() {
     }, [nearestLocs]);
 
     const handleGetDirections = (coordinates) => {
-        // Implement direction functionality here
+
+        let url = "https://www.google.com/maps/dir/?api=1";
+        let origin = "&origin=" + selectedPlace.lat + "," + selectedPlace.lng;
+        let destination = "&destination=" + coordinates.lat + "," + coordinates.lng;
+
+        let newUrl = new URL(url + origin + destination);
+
+        let win = window.open(newUrl, '_blank');
+        win.focus();
+
         console.log("Get directions for:", coordinates);
     };
 
+    console.log('fp', fspots)
+
     return (
         <div className="grid grid-cols-1 gap-4 mt-8">
-            {fspots.map((spot) => (
+
+            {fspots.length === 0 ? <p className=" bg-white rounded-lg p-4 mb-4 text-pretty text-center font-extrabold "> Place Is Not Selected </p> : fspots.map((spot) => (
                 <div key={spot._id} className="bg-white rounded-lg  p-4 mb-4">
                     <div className="flex justify-between items-start">
                         <div>
@@ -50,7 +64,7 @@ export default function Nearestspot() {
                             {spot.handicapSpaces > 0 && <Accessibility className="text-green-600" size={20} />}
                         </div>
                     </div>
-                    
+
                     <div className="mt-3">
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-600">Total Spaces:</span>
@@ -72,7 +86,7 @@ export default function Nearestspot() {
 
                     <div className="mt-4 flex gap-2">
                         <button
-                            onClick={() => handleGetDirections(spot.coordinates)}
+                            onClick={() => handleGetDirections({ lat: spot.latitude , lng: spot.longitude  })}
                             className="flex items-center justify-center gap-2 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
                         >
                             <Navigation2 size={16} />

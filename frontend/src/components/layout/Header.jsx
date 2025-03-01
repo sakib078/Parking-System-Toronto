@@ -12,7 +12,7 @@ export default function Header() {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <MapPin className="h-8 w-8 text-blue-600" />
-                            <h1 className="ml-2 text-2xl font-bold text-gray-900">ParkFinder TO</h1>
+                            <h1 className="ml-2 text-2xl font-bold text-gray-900">Parking.Toronto</h1>
                         </div>
                         <Search />
                     </div>

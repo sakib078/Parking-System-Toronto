@@ -11,13 +11,16 @@ export function useDataContext() {
 export function DataContextProvider({ children }) {
 
   const [data, setData] = useState([]);
+  const [selectedPlace, setSelectedPlace ] = useState({});
   const [nearestLocs, setnearestLocs] = useState([]);
 
   const value = {
     data,
     nearestLocs,
+    selectedPlace,
     handleSearch,
-    Nearestspots
+    Nearestspots,
+    setSelectedPlace
   }
 
   function handleSearch(value) {
